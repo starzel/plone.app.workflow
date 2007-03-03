@@ -32,7 +32,10 @@ class PrefsTypesView(BrowserView):
         if submitted and not cancel_button:
             title = form['title']
             type_id = form['type_id']
+
             # Update content type checkboxes
+
+            # XXX Move this to a func and/or find a better way to do this.
             try:
                 addable             = form['addable']
             except:
@@ -49,19 +52,21 @@ class PrefsTypesView(BrowserView):
                 visable             = form['visable']
             except:
                 visable             = 'False'
-
+            if (addable == 'on'):
+                addable = 'True'
             if (allow_discussion == 'on'):
                 allow_discussion = 'True'
+
+
+            self.set_type_globally_allowed(type_id, addable)
             self.set_type_discussion_allowed(type_id, allow_discussion)
 
             # Update content type title
             plone_tool = getToolByName(self, 'plone_utils')
             types_tool = getToolByName(self, 'portal_types')
-            #types_list = plone_tool.getUserFriendlyTypes()
             types_dict = types_tool.listTypeTitles()
             if type_id in types_dict:
                 if types_dict[type_id] != title:
-                    #print ("setting title for ", title)
                     ti = types_tool.getTypeInfo(type_id)
                     ti.title = title
 
@@ -107,6 +112,15 @@ class PrefsTypesView(BrowserView):
         portal_types = getToolByName(self, 'portal_types')
         if (type.Title() == portal_types[type_id].Title()):
             return ('selected')
+
+    @memoize
+    def set_type_globally_allowed(self, type_id, setting):
+        """Set this type as addable.
+        """
+        portal_types = getToolByName(self, 'portal_types')
+        ti = portal_types.getTypeInfo(type_id)
+        if ('global_allow' in ti.propertyIds()):
+            ti.manage_changeProperties(global_allow=setting)
 
     @memoize
     def is_type_globally_allowed(self, type_id):
