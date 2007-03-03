@@ -23,7 +23,6 @@ class PrefsTypesView(BrowserView):
     def __call__(self):
         """Perform the update and redirect if necessary, or render the page
         """
-        
         postback = True
         form = self.request.form
         submitted = form.get('form.submitted', False)
@@ -31,12 +30,33 @@ class PrefsTypesView(BrowserView):
         cancel_button = form.get('form.button.Cancel', None) is not None
 
         if submitted and not cancel_button:
+            title = form['title']
+            type_id = form['type_id']
+            # Update content type checkboxes
+            try:
+                addable             = form['addable']
+            except:
+                addable             = 'False'
+            try:
+                allow_discussion    = form['allow_discussion']
+            except:
+                allow_discussion    = 'False'
+            try:
+                versionable         = form['versionable']
+            except:
+                versionable         = 'False'
+            try:
+                visable             = form['visable']
+            except:
+                visable             = 'False'
+
+            if (allow_discussion == 'on'):
+                allow_discussion = 'True'
+            self.set_type_discussion_allowed(type_id, allow_discussion)
 
             # Update content type title
             plone_tool = getToolByName(self, 'plone_utils')
             types_tool = getToolByName(self, 'portal_types')
-            type_id = form['type_id']
-            title = form['title']
             #types_list = plone_tool.getUserFriendlyTypes()
             types_dict = types_tool.listTypeTitles()
             if type_id in types_dict:
@@ -46,12 +66,15 @@ class PrefsTypesView(BrowserView):
                     ti.title = title
 
             # Update workflow 
+
             #portal_workflow = getToolByName(self, 'portal_workflow')
             #portal_workflow.setChainForPortalTypes((form['type_id'],), (form['wf_id'],))
 
             # Update workflow state mappings
             #self.change_workflow()
             #self.request.response.redirect(self.context.absolute_url())
+
+
             return self.template()
 
         # Other buttons return to the sharing page
@@ -93,6 +116,15 @@ class PrefsTypesView(BrowserView):
         ti = portal_types.getTypeInfo(type_id)
         if ('global_allow' in ti.propertyIds()):
             return (ti.getProperty('global_allow'))
+
+    @memoize
+    def set_type_discussion_allowed(self, type_id, setting):
+        """Set this type to allow discussion.
+        """
+        portal_types = getToolByName(self, 'portal_types')
+        ti = portal_types.getTypeInfo(type_id)
+        if ('allow_discussion' in ti.propertyIds()):
+            ti.manage_changeProperties(allow_discussion=setting)
 
     @memoize
     def is_type_discussion_allowed(self, type_id):
