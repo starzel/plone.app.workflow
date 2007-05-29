@@ -57,6 +57,28 @@
           </tr>
       </thead>
 
+    <tfoot style="border-top: 1px solid #8CACBB; background-color: #DEE7EC; text-align: center"><!-- XXX: Move to CSS -->
+        <tr>
+            <td tal:attributes="colspan num_columns">
+                <label for="user-group-search">
+                    <img tal:replace="structure context/add_alternative_icon.gif" />
+                </label>
+                <input type="text" 
+                       id="user-group-search"
+                       size="30" 
+                       name="search_term"
+                       title="Search for user or group" 
+                       i18n:attributes="title"
+                       class="inputLabel"
+                       value="" />
+                <input type="submit"
+                       id="sharing-save-button" 
+                       name="form.button.Search"
+                       value="Search"
+                       class="searchButton" />
+            </td>
+        </tr>
+    </tfoot>
     <tbody metal:define-macro="user-group-sharing-settings" id="user-group-sharing-settings">
         <tal:entries repeat="entry role_settings">
             <tr tal:define="is_group python:entry['type'] == 'group';
@@ -94,28 +116,6 @@
         </tal:entries>
     </tbody>
     
-    <tfoot style="border-top: 1px solid #8CACBB; background-color: #DEE7EC; text-align: center"><!-- XXX: Move to CSS -->
-        <tr>
-            <td tal:attributes="colspan num_columns">
-                <label for="user-group-search">
-                    <img tal:replace="structure context/add_alternative_icon.gif" />
-                </label>
-                <input type="text" 
-                       id="user-group-search"
-                       size="30" 
-                       name="search_term"
-                       title="Search for user or group" 
-                       i18n:attributes="title"
-                       class="inputLabel"
-                       value="" />
-                <input type="submit"
-                       id="sharing-save-button" 
-                       name="form.button.Search"
-                       value="Search"
-                       class="searchButton" />
-            </td>
-        </tr>
-    </tfoot>
 </table>
 
 <div class="field">
