@@ -1,4 +1,3 @@
-from zope.testing import doctest
 from unittest import TestSuite
 from utils import optionflags
 from Testing.ZopeTestCase import FunctionalDocFileSuite

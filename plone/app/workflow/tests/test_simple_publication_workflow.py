@@ -2,7 +2,6 @@
 # Tests about the Simple publication workflow
 #
 
-from Products.CMFPlone.tests import PloneTestCase
 from base import WorkflowTestCase
 
 from Products.CMFCore.WorkflowCore import WorkflowException
@@ -13,7 +12,7 @@ from Products.CMFCore.permissions import View
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCalendar.permissions import ChangeEvents
 
-default_user = PloneTestCase.default_user
+from Products.PloneTestCase.ptc import default_user
 
 
 class TestSimplePublicationWorkflow(WorkflowTestCase):

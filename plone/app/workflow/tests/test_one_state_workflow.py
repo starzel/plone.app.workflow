@@ -2,20 +2,15 @@
 # Tests the one state workflow
 #
 
-from Products.CMFPlone.tests import PloneTestCase
 from base import WorkflowTestCase
-
-from Products.CMFCore.WorkflowCore import WorkflowException
 
 from Products.CMFCore.utils import _checkPermission as checkPerm
 from Products.CMFCore.permissions import AccessContentsInformation
 from Products.CMFCore.permissions import View
-from Products.CMFCore.permissions import ListFolderContents
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCalendar.permissions import ChangeEvents
 
-
-default_user = PloneTestCase.default_user
+from Products.PloneTestCase.ptc import default_user
 
 
 class TestOneStateWorkflow(WorkflowTestCase):

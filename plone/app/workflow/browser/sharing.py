@@ -11,7 +11,6 @@ from zExceptions import Forbidden
 
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore import permissions
-from Products.CMFPlone.utils import safe_unicode, getSiteEncoding
 from Products.statusmessages.interfaces import IStatusMessage
 
 from plone.memoize.instance import memoize, clearafter
@@ -38,6 +37,17 @@ def merge_search_results(results, key):
             output[id]=buf
 
     return output.values()
+
+def safe_unicode(value):
+    if isinstance(value, unicode):
+        return value
+    elif isinstance(value, basestring):
+        try:
+            value = unicode(value, 'utf-8')
+        except UnicodeDecodeError:
+            value = value.decode('utf-8', 'replace')
+    return value
+
 
 class SharingView(BrowserView):
     
@@ -166,9 +176,7 @@ class SharingView(BrowserView):
                     if entry["roles"][role] in [True, False]:
                         entry["roles"][role] = role in desired_roles
 
-        encoding = getSiteEncoding(aq_inner(self.context))                               
-        current_settings.sort(key=lambda x: safe_unicode(x["type"], encoding)+safe_unicode(x["title"],encoding))
-
+        current_settings.sort(key=lambda x: safe_unicode(x["type"])+safe_unicode(x["title"]))
         return current_settings
 
     def inherited(self, context=None):

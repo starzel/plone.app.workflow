@@ -77,8 +77,7 @@ class TestRemapWorkflow(WorkflowTestCase):
         view_at_d1 = [r['name'] for r in self.portal.d1.rolesOfPermission('View') if r['selected']]
         self.failIf('Anonymous' in view_at_d1)
         self.failUnless(self.portal.d1.acquiredRolesAreUsedBy('View'))
-        
-        
+
     def test_remap_from_no_workflow(self):
         remap_workflow(self.portal, 
                        type_ids=('Image',), 
@@ -92,7 +91,7 @@ class TestRemapWorkflow(WorkflowTestCase):
                        type_ids=('Folder',), 
                        chain='(Default)')
 
-        self.assertEquals(self._chain(self.portal.i1), ('plone_workflow',))
+        self.assertEquals(self._chain(self.portal.i1), ('simple_publication_workflow',))
 
 def test_suite():
     from unittest import TestSuite, makeSuite

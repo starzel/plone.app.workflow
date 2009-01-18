@@ -4,6 +4,10 @@ Changelog
 2.0 (Unreleased)
 ----------------
 
+- Made the tests independent of CMFPlone and avoid a spurious import for the
+  `safe_unicode` method.
+  [hannosch]
+
 - Moved the IWorkflowChain interface and default adapter from CMFPlone into
   this package.
   [hannosch]
