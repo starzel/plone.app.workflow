@@ -1,4 +1,5 @@
 from zope.interface import Interface
+from zope.interface.common.sequence import IReadSequence
 from zope import schema
 
 class ISharingPageRole(Interface):
@@ -15,3 +16,8 @@ class ISharingPageRole(Interface):
     
     required_permission = schema.TextLine(title=u"Permission required to manage this local role",
                                           required=False)
+
+
+class IWorkflowChain( IReadSequence ):
+    """ an interface denoting the cmf workflow name sequence
+    """

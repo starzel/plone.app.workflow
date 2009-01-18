@@ -4,6 +4,9 @@ Changelog
 2.0 (Unreleased)
 ----------------
 
+- Moved the IWorkflowChain interface and default adapter from CMFPlone into
+  this package.
+  [hannosch]
 
 1.2 (Unreleased)
 ----------------
