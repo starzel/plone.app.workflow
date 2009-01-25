@@ -8,13 +8,5 @@
         class=".sharing.SharingView"
         permission="plone.DelegateRoles"
         />
-        
-    <browser:page
-        for="*"
-        class=".kss_sharing.KSSSharingView"
-        name="updateSharingInfo"
-        attribute="updateSharingInfo"
-        permission="plone.DelegateRoles"
-      />
-      
+
 </configure>

@@ -4,6 +4,10 @@ Changelog
 2.0 (Unreleased)
 ----------------
 
+- Removed a dependency on plone.app.kss. The former KSS-enabled sharing page
+  wasn't in any way significant faster or more usable than a full page reload.
+  [hannosch]
+
 - Made the tests independent of CMFPlone and avoid a spurious import for the
   `safe_unicode` method.
   [hannosch]
