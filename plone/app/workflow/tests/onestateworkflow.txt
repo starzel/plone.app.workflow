@@ -9,10 +9,6 @@ First, some set-up of our site for testing:
     >>> from Products.Five.testbrowser import Browser
     >>> browser = Browser()
     >>> browser.handleErrors = True
-    
-Let us log all exceptions, which is useful for debugging.
-
-    >>> self.portal.error_log._ignored_exceptions = ()
 
 Verify that our items are actually all in the one_state_workflow and in our
 default 'published' state

@@ -10,10 +10,6 @@ Let's also create some
     >>> from Products.Five.testbrowser import Browser
     >>> browser = Browser()
     >>> browser.handleErrors = False
-    
-Let us log all exceptions, which is useful for debugging.
-
-    >>> self.portal.error_log._ignored_exceptions = ()
 
 Anonymous users
 ---------------
