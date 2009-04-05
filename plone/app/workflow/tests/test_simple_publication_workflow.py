@@ -10,7 +10,6 @@ from Products.CMFCore.utils import _checkPermission as checkPerm
 from Products.CMFCore.permissions import AccessContentsInformation
 from Products.CMFCore.permissions import View
 from Products.CMFCore.permissions import ModifyPortalContent
-from Products.CMFCalendar.permissions import ChangeEvents
 
 from Products.PloneTestCase.ptc import default_user
 
@@ -214,63 +213,6 @@ class TestSimplePublicationWorkflow(WorkflowTestCase):
         # Reader is denied
         self.login('reader')
         self.failIf(checkPerm(ModifyPortalContent, self.doc))
-
-    # Check change events permission
-
-    def testChangeEventsIsNotAcquiredInPrivateState(self):
-        self.assertEqual(self.workflow.getInfoFor(self.ev, 'review_state'), 'private')
-        self.assertEqual(self.ev.acquiredRolesAreUsedBy(ChangeEvents), '')
-
-    def testModifyPrivateEvent(self):
-        self.assertEqual(self.workflow.getInfoFor(self.ev, 'review_state'), 'private')
-        # Owner is allowed
-        self.login(default_user)
-        self.failUnless(checkPerm(ChangeEvents, self.ev))
-        # Member is denied
-        self.login('member')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Reviewer is denied
-        self.login('reviewer')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Anonymous is denied
-        self.logout()
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Editor is allowed
-        self.login('editor')
-        self.failUnless(checkPerm(ChangeEvents, self.ev))
-        # Reader is denied
-        self.login('reader')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-
-    def testChangeEventsIsNotAcquiredInPublishedState(self):
-        # transition requires Review portal content
-        self.login('manager')
-        self.workflow.doActionFor(self.ev, 'publish')
-        self.assertEqual(self.ev.acquiredRolesAreUsedBy(ChangeEvents), '')
-
-    def testModifyPublishEvent(self):
-        # transition requires Review portal content
-        self.login('manager')
-        self.workflow.doActionFor(self.ev, 'publish')
-        self.failUnless(checkPerm(ChangeEvents, self.ev))
-        # Owner is allowed
-        self.login(default_user)
-        self.failUnless(checkPerm(ChangeEvents, self.ev))
-        # Member is denied
-        self.login('member')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Reviewer is denied
-        self.login('reviewer')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Anonymous is denied
-        self.logout()
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Editor is allowed
-        self.login('editor')
-        self.failUnless(checkPerm(ChangeEvents, self.ev))
-        # Reader is denied
-        self.login('reader')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
 
 
 def test_suite():

@@ -10,7 +10,6 @@ from Products.CMFCore.utils import _checkPermission as checkPerm
 from Products.CMFCore.permissions import AccessContentsInformation
 from Products.CMFCore.permissions import View
 from Products.CMFCore.permissions import ModifyPortalContent
-from Products.CMFCalendar.permissions import ChangeEvents
 
 from Products.PloneTestCase.ptc import default_user
 
@@ -344,81 +343,6 @@ class TestDefaultWorkflow(WorkflowTestCase):
         self.login('reviewer')
         self.workflow.doActionFor(self.doc, 'publish')
         self.assertEqual(self.doc.acquiredRolesAreUsedBy(ModifyPortalContent), '')
-
-    # Check change events permission
-
-    def testModifyVisibleEvent(self):
-        # Owner is allowed
-        self.failUnless(checkPerm(ChangeEvents, self.ev))
-        # Member is denied
-        self.login('member')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Reviewer is denied
-        self.login('reviewer')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Anonymous is denied
-        self.logout()
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-
-    def testChangeEventsIsNotAcquiredInVisibleState(self):
-        self.assertEqual(self.ev.acquiredRolesAreUsedBy(ChangeEvents), '')
-
-    def testModifyPrivateEvent(self):
-        self.workflow.doActionFor(self.ev, 'hide')
-        # Owner is allowed
-        self.failUnless(checkPerm(ChangeEvents, self.ev))
-        # Member is denied
-        self.login('member')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Reviewer is denied
-        self.login('reviewer')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Anonymous is denied
-        self.logout()
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-
-    def testChangeEventsIsNotAcquiredInPrivateState(self):
-        self.workflow.doActionFor(self.ev, 'hide')
-        self.assertEqual(self.ev.acquiredRolesAreUsedBy(ChangeEvents), '')
-
-    def testModifyPendingEvent(self):
-        self.workflow.doActionFor(self.ev, 'submit')
-        # Owner is denied
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Member is denied
-        self.login('member')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Reviewer is allowed
-        self.login('reviewer')
-        self.failUnless(checkPerm(ChangeEvents, self.ev))
-        # Anonymous is denied
-        self.logout()
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-
-    def testChangeEventsIsNotAcquiredInPendingState(self):
-        self.workflow.doActionFor(self.ev, 'submit')
-        self.assertEqual(self.ev.acquiredRolesAreUsedBy(ChangeEvents), '')
-
-    def testModifyPublishedEvent(self):
-        self.login('reviewer')
-        self.workflow.doActionFor(self.ev, 'publish')
-        # Owner is denied
-        self.login(default_user)
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Member is denied
-        self.login('member')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Reviewer is denied
-        self.login('reviewer')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Anonymous is denied
-        self.logout()
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-
-    def testChangeEventsIsNotAcquiredInPublishedState(self):
-        self.login('reviewer')
-        self.workflow.doActionFor(self.ev, 'publish')
-        self.assertEqual(self.ev.acquiredRolesAreUsedBy(ChangeEvents), '')
 
     # Check catalog search
 

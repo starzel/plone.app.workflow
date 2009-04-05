@@ -8,7 +8,6 @@ from Products.CMFCore.utils import _checkPermission as checkPerm
 from Products.CMFCore.permissions import AccessContentsInformation
 from Products.CMFCore.permissions import View
 from Products.CMFCore.permissions import ModifyPortalContent
-from Products.CMFCalendar.permissions import ChangeEvents
 
 from Products.PloneTestCase.ptc import default_user
 
@@ -112,29 +111,6 @@ class TestOneStateWorkflow(WorkflowTestCase):
         self.login('reader')
         self.failIf(checkPerm(ModifyPortalContent, self.doc))
 
-    # Check change events permission
-
-    def testChangeEventsIsNotAcquiredInPublishedState(self):
-        self.assertEqual(self.ev.acquiredRolesAreUsedBy(ChangeEvents), '')
-
-    def testModifyPublishEvent(self):
-        # Owner is allowed
-        self.failUnless(checkPerm(ChangeEvents, self.ev))
-        # Member is denied
-        self.login('member')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Reviewer is denied
-        self.login('reviewer')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Anonymous is denied
-        self.logout()
-        self.failIf(checkPerm(ChangeEvents, self.ev))
-        # Editor is allowed
-        self.login('editor')
-        self.failUnless(checkPerm(ChangeEvents, self.ev))
-        # Reader is denied
-        self.login('reader')
-        self.failIf(checkPerm(ChangeEvents, self.ev))
 
 
 def test_suite():
