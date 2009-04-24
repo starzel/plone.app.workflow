@@ -72,7 +72,8 @@
               <th i18n:translate="label_name">User/Group</th>
               <th class="nosort"
                   tal:repeat="role available_roles"
-                  tal:content="role/title"  />
+                  tal:content="role/title"
+                  i18n:translate="" />
           </tr>
       </thead>
 

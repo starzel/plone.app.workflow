@@ -4,6 +4,9 @@ Changelog
 2.0 (Unreleased)
 ----------------
 
+- Added missing i18n markup in sharing page.
+  [hannosch]
+
 - Removed testing dependency on CMFCalendar.
   [hannosch]
 
