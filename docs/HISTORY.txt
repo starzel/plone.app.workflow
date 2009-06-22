@@ -25,7 +25,11 @@ Changelog
   this package.
   [hannosch]
 
-1.2 (Unreleased)
+1.2.1 - unreleased
+------------------
+
+
+1.2 - 2009-05-10
 ----------------
 
 - Use our own PloneMessageFactory.
@@ -38,14 +42,14 @@ Changelog
   [hannosch]
 
 - Display the userid in addition to the fullname if they are different.
-  Fixes http://dev.plone.org/plone/ticket/8251
-  [csenger]  
+  Fixes http://dev.plone.org/plone/ticket/8251.
+  [csenger]
 
 - Adjusted a test to work with Zope 2.12.
   [hannosch]
 
 - Use safe_unicode() instead of str() to fix #7576. Fixes
-  http://dev.plone.org/plone/ticket/8371 .
+  http://dev.plone.org/plone/ticket/8371.
   [csenger]
 
 1.1.5 - August 18th, 2008
